@@ -21,6 +21,13 @@ body {
   padding-top: 50px;
 }
 
+.clockDisplay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
 .clockText {
   font-weight: 700;
   letter-spacing: 0.02em;
@@ -29,33 +36,68 @@ body {
   font-size: clamp(48px, 12vw, 160px);
 }
 
-.grid {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+.timeFormat {
+  color: #555555;
+  font-size: clamp(14px, 2vw, 24px);
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1;
 }
 
-.row {
+.grid {
   display: grid;
-  grid-template-columns: repeat(10, 1fr);
-  gap: 6px;
+  grid-template-columns: auto minmax(56px, auto);
+  align-items: center;
+  column-gap: 16px;
+  --cell-size: 28px;
+}
+
+.blockGrid {
+  display: grid;
+  grid-template-columns: repeat(10, var(--cell-size));
 }
 
 .cell {
-  width: 28px;
+  box-sizing: border-box;
+  width: var(--cell-size);
   aspect-ratio: 1 / 1;
-  border: 1px solid #cccccc;
+  border-top: 1.5px solid #111111;
+  border-left: 1.5px solid #111111;
   background: #ffffff;
+}
+
+.cell:nth-child(10n) {
+  border-right: 1.5px solid #111111;
+}
+
+.cell:nth-child(n + 21) {
+  border-bottom: 1.5px solid #111111;
 }
 
 .cell.filled {
   background: #111111;
-  border-color: #111111;
+}
+
+.unitLabels {
+  display: grid;
+  grid-template-rows: repeat(3, var(--cell-size));
+  align-items: center;
+}
+
+.unitLabel {
+  font-size: 18px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
 }
 
 @media (min-width: 768px) {
-  .cell {
-    width: 36px;
+  .grid {
+    --cell-size: 36px;
+  }
+
+  .unitLabel {
+    font-size: 22px;
   }
 }
 
