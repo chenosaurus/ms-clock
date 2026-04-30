@@ -6,6 +6,8 @@ function pad(number, width) {
   return String(number).padStart(width, "0");
 }
 
+const MS_UNIT_LABELS = ["100ms", "10ms", "1ms"];
+
 export default function Page() {
   const [timeText, setTimeText] = useState("00:00:000");
   const [msDigits, setMsDigits] = useState([0, 0, 0]);
@@ -36,22 +38,34 @@ export default function Page() {
 
   return (
     <main className="page">
-      <div className="clockText" aria-label="Current time in minutes, seconds, and milliseconds">
-        {timeText}
+      <div className="clockDisplay">
+        <div className="clockText" aria-label="Current time in minutes, seconds, and milliseconds">
+          {timeText}
+        </div>
+        <div className="timeFormat" aria-label="Time format">
+          min : sec : ms
+        </div>
       </div>
 
       <div className="grid" aria-label="Milliseconds visualization grid">
-        {msDigits.map((digit, rowIndex) => (
-          <div className="row" key={rowIndex} role="group" aria-label={`Row ${rowIndex + 1} digit ${digit}`}>
-            {Array.from({ length: 10 }, (_, idx) => (
+        <div className="blockGrid">
+          {msDigits.map((digit, rowIndex) =>
+            Array.from({ length: 10 }, (_, idx) => (
               <div
-                key={idx}
+                key={`${rowIndex}-${idx}`}
                 className={`cell${idx < digit ? " filled" : ""}`}
                 aria-hidden="true"
               />
-            ))}
-          </div>
-        ))}
+            ))
+          )}
+        </div>
+        <div className="unitLabels">
+          {MS_UNIT_LABELS.map((label) => (
+            <span className="unitLabel" key={label}>
+              {label}
+            </span>
+          ))}
+        </div>
       </div>
     </main>
   );
